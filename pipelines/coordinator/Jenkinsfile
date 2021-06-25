@@ -1,5 +1,5 @@
-@Library('main-library')_
+@Library('main-library')
 
 import org.ozlevka.Test
 
-testA
+testA()
