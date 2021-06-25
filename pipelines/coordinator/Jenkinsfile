@@ -1,5 +1,3 @@
-@Library('main-library')
-
-import org.ozlevka.Test
+@Library('main-library')_
 
 testA()

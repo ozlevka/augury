@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+import org.ozlevka.Test
+
 def call() {
     node("master") {
         stage("First") {
