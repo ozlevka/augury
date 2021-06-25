@@ -3,7 +3,6 @@
 import org.ozlevka.Test
 
 def call() {
-    node("master") {
         stage("First") {
             echo "Hello first"
         }
@@ -13,5 +12,4 @@ def call() {
                 echo "Hello second"
             """
         }
-    } 
 }

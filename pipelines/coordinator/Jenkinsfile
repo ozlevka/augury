@@ -1,3 +1,7 @@
 @Library('main-library')_
 
-testA()
+node('master') {
+    stage("All running") {
+        testA()
+    }
+}
