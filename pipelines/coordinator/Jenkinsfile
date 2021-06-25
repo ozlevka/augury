@@ -1,12 +1,6 @@
 properties([pipelineTriggers([githubPush()])])
 
 node {
-    stage("Nu Fetch") {
-        git url: "https://github.com/ozlevka/augury.git", branch: "*"
-    }
-    
-    
-    
     stage("Hello world") {
         echo "Hello world"
     }
