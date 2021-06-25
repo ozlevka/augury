@@ -2,6 +2,6 @@ properties([pipelineTriggers([githubPush()])])
 
 node {
     stage("Hello world") {
-        echo "Hello world"
+        echo "Hello covid world"
     }
 }
