@@ -3,9 +3,9 @@ package org.ozlevka
 
 class Test {
 
-    def helloA() {
-        stage("Hello A") {
-            echo "Hello A stage hello"
+    def helloA(steps) {
+        steps.stage("Hello A") {
+            steps.echo "Hello A stage hello"
         }
     }
 }
