@@ -1,6 +1,1 @@
 
-node {
-    stage("Hello world") {
-        echo "Hello covid world"
-    }
-}
