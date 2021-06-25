@@ -1,7 +1,5 @@
 @Library('main-library')_
 
 node('master') {
-    stage("All running") {
-        testA()
-    }
+    
 }
