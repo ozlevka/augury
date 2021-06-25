@@ -5,6 +5,8 @@ node {
         git url: "https://github.com/ozlevka/augury.git", branch: "main"
     }
     
+    
+    
     stage("Hello world") {
         echo "Hello world"
     }
