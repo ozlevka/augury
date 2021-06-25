@@ -1,5 +1,4 @@
 @Library('main-library')_
 
-node('master') {
-    
-}
+kubernetes()
+
