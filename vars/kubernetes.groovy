@@ -6,7 +6,7 @@ def call() {
         node(POD_LABEL) {
             stage("Run shell hello") {
                 container("ubuntu-test") {
-                    sh "echo Hello container"
+                    sh "echo ${params.BRANCH_NAME}"
                 }
             }
         }
