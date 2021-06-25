@@ -4,9 +4,13 @@ def call() {
     makeProperties()
     podTemplate(yaml: podYaml) {
         node(POD_LABEL) {
+            stage("Get version") {
+                git url: "https://github.com/ozlevka/augury.git", branch: params.BRANCH_NAME
+            }
+
             stage("Run shell hello") {
                 container("ubuntu-test") {
-                    sh "echo ${params.BRANCH_NAME}"
+                    sh 'pwd'
                 }
             }
         }
