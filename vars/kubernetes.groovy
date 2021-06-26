@@ -12,7 +12,7 @@ def call() {
                 commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
             }
 
-            dockerTag = "${env.BUILD_NUMBER}-${commitId}"
+            dockerTag = "${commitId}-${env.BUILD_NUMBER}"
 
             stage("Build and push container") {
                 container("docker") {
@@ -20,7 +20,7 @@ def call() {
                         set -e
                         cd project
                         echo \$GITHUB_TOKEN | docker login ghcr.io/ozlevka -u ozlevka --password-stdin
-                        docker build -t ghcr.io/ozlevka/augury-test:tmp-${dockerTag} .
+                        docker build -t "ghcr.io/ozlevka/augury-test:${dockerTag}" .
                         docker push ghcr.io/ozlevka/augury-test:tmp-${dockerTag}
                     """
                 }
