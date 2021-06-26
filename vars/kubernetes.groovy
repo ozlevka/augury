@@ -1,4 +1,7 @@
 
+def dockerTag = ""
+def commitId = ""
+
 def call() {
     def podYaml = libraryResource "org/ozlevka/defaultPod.yaml"
     makeProperties()
@@ -6,21 +9,20 @@ def call() {
         node(POD_LABEL) {
             stage("Get version") {
                 git url: "https://github.com/ozlevka/augury.git", branch: params.BRANCH_NAME
+                commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
             }
+
+            docker-tag = "${env.BUILD_NUMBER}-${commitId}"
 
             stage("Build and push container") {
                 container("docker") {
-                    try {
-                        sh """
-                            set -e
-                            cd project
-                            echo \$GITHUB_TOKEN | docker login ghcr.io/ozlevka -u ozlevka --password-stdin
-                            docker build -t ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT} .
-                            docker push ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT}
-                        """
-                    } catch (Exception ex) {
-                        sleep 900
-                    }
+                    sh """
+                        set -e
+                        cd project
+                        echo \$GITHUB_TOKEN | docker login ghcr.io/ozlevka -u ozlevka --password-stdin
+                        docker build -t ghcr.io/ozlevka/augury-test:tmp-${docker-tag} .
+                        docker push ghcr.io/ozlevka/augury-test:tmp-${docker-tag}
+                    """
                 }
             }
         }
