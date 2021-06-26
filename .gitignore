@@ -3,3 +3,8 @@
 *.iml
 .idea/
 target
+
+
+.terraform/
+*.tfvars
+
