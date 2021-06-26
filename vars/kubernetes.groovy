@@ -12,7 +12,7 @@ def call() {
                 commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
             }
 
-            docker-tag = "${env.BUILD_NUMBER}-${commitId}"
+            dockerTag = "${env.BUILD_NUMBER}-${commitId}"
 
             stage("Build and push container") {
                 container("docker") {
