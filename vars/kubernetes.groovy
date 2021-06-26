@@ -29,6 +29,7 @@ def makeProperties() {
     properties([
         parameters([
             string(name: 'BRANCH_NAME', description: 'Branch name to build', )
-        ])
+        ]),
+        [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10']]
     ])
 }
