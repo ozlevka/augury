@@ -12,9 +12,3 @@ spec:
           secretKeyRef:
             name: github-token
             key: token
-      - name: DOCKER_HOST
-        value: "tcp://localhost:2375"
-      command:
-      - /bin/sh
-      - -c
-      - "while sleep 1000; do :; done"
