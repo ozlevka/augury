@@ -9,7 +9,7 @@ def call() {
         node(POD_LABEL) {
             stage("Get version") {
                 git url: "https://github.com/ozlevka/augury.git", branch: params.BRANCH_NAME
-                commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
+                commitId = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             }
 
             dockerTag = "${commitId}-${env.BUILD_NUMBER}"
