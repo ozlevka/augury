@@ -4,9 +4,15 @@ metadata:
   name: test-slave
 spec:
   containers:
-    - name: ubuntu-test
-      image: ubuntu:20.04
+    - name: docker
+      image: docker:20.10.7-dind
+      env:
+      - name: GITHUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: github-token
+            key: token
       command:
-      - /bin/bash
+      - /bin/sh
       - -c
       - "while sleep 1000; do :; done"

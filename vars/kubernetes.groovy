@@ -8,9 +8,14 @@ def call() {
                 git url: "https://github.com/ozlevka/augury.git", branch: params.BRANCH_NAME
             }
 
-            stage("Run shell hello") {
-                container("ubuntu-test") {
-                    sh 'pwd'
+            stage("Build and push container") {
+                container("docker") {
+                    sh """
+                        set -e
+                        echo $GITHUB_TOKEN | docker login ghcr.io/ozlevka -u ozlevka --password-stdin
+                        docker build -t ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT} .
+                        docker push ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT}
+                    """
                 }
             }
         }
