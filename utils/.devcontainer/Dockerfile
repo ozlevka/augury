@@ -21,7 +21,11 @@ RUN apt-get update \
     && apt-get -y install git procps lsb-release \
     #
     # Install pylint
-    && pip --disable-pip-version-check --no-cache-dir install pylint kubernetes \
+    && pip --disable-pip-version-check --no-cache-dir install pylint kubernetes pyyaml \
+    # Install kubectl
+    && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.19/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/bin/ \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     && groupadd --gid $USER_GID $USERNAME \

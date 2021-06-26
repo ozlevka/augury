@@ -4,6 +4,9 @@
 .idea/
 target
 
+#VSCode staff
+.vscode/
+
 
 .terraform/
 *.tfvars

@@ -1,13 +1,16 @@
 {
 	"name": "Python kubernetes api",
 	"dockerFile": "Dockerfile",
+	"remoteUser": "vscode",
 
 	// Specifies a list of ports that should be published from the container.
 	"appPort": [7012],
 
 	// Comment out the next line to run as root instead. Linux users, 
 	// update Dockerfile with your user's UID/GID if not 1000.
-	"runArgs": ["-v", "${localEnv:HOME}/.kube:/home/vscode/.kube"],
+	"runArgs": ["-v", "${localEnv:HOME}/.kube:/home/vscode/.kube",
+				"-e", "DEV_ENV=True"
+	],
 
 	// Use 'settings' to set *default* container specific settings.json values on container create. 
 	// You can edit these settings after create using File > Preferences > Settings > Remote.
@@ -18,10 +21,7 @@
 		"python.linting.pylintPath": "/usr/local/bin/pylint",
 		"python.linting.enabled": true
 	},
-
-	// Specifies a command to run after the container is created
-	"postCreateCommand": "sudo pip install -r requirements.txt",
-
+	
 	"extensions": [
 		"ms-python.python",
 		"ms-kubernetes-tools.vscode-kubernetes-tools",

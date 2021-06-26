@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: augury-application
+spec:
+  containers:
+  - name: application
+    image: "ghcr.io/ozlevka/augury-test:9e8a3e8c8ac2e10201658e12dda2e19901a66366-53"
+    command: ["node", "/app/server.js"]
