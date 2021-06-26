@@ -17,6 +17,8 @@ def call() {
                         docker build -t ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT} .
                         docker push ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT}
                     """
+
+                    sleep 900
                 }
             }
         }
