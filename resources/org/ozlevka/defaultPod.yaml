@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: test-slave
 spec:
+  securityContext:
+    runAsUser: 0
   containers:
     - name: docker
       image: docker:20.10.7-dind
