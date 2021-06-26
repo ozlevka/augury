@@ -20,8 +20,8 @@ def call() {
                         set -e
                         cd project
                         echo \$GITHUB_TOKEN | docker login ghcr.io/ozlevka -u ozlevka --password-stdin
-                        docker build -t ghcr.io/ozlevka/augury-test:tmp-${docker-tag} .
-                        docker push ghcr.io/ozlevka/augury-test:tmp-${docker-tag}
+                        docker build -t ghcr.io/ozlevka/augury-test:tmp-${dockerTag} .
+                        docker push ghcr.io/ozlevka/augury-test:tmp-${dockerTag}
                     """
                 }
             }
