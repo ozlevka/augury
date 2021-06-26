@@ -12,6 +12,7 @@ def call() {
                 container("docker") {
                     sh """
                         set -e
+                        cd project
                         echo $GITHUB_TOKEN | docker login ghcr.io/ozlevka -u ozlevka --password-stdin
                         docker build -t ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT} .
                         docker push ghcr.io/ozlevka/augury-test:tmp-${env.BUILD_NUMBER}-${env.GIT_COMMIT}
