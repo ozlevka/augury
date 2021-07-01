@@ -1,0 +1,6 @@
+
+ docker run -d \
+     --restart unless-stopped \
+     -v ~/.kube:/root/.kube \
+     --network host \
+     ghcr.io/ozlevka/jenkins-empty:v0.0.4
