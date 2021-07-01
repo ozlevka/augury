@@ -42,6 +42,7 @@ def makeProperties() {
 def prepareTestPodYaml() {
     def podYaml = libraryResource "org/ozlevka/testPod.yaml"
     def object = readYaml text: podYaml
+    
     for (container in object['spec']['containers']) {
         if (container['name'] == 'application') {
             container['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
@@ -49,7 +50,7 @@ def prepareTestPodYaml() {
         }
     }
 
-    return writeYaml data: object, returnText: true
+    return writeYaml(data: object, returnText: true)
 }
 
 def deployAndTest() {    
