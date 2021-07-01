@@ -59,7 +59,11 @@ def deployAndTest() {
             stage("Test application") {
                 container("test") {
                     sh """
-                        curl localhost:8080/test
+                        STATUSCODE=\$(curl --silent --output /dev/stderr --write-out "%{http_code}" http://localhost:8080/test)
+
+                        if test \$STATUSCODE -ne 200; then
+                            exit 1
+                        fi
                     """
                 }
             }
