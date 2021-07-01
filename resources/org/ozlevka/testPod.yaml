@@ -7,7 +7,7 @@ spec:
   - name: application
     image: bla
   - name: test
-    image: curlimages/curl:7.77.0
+    image: rancher/curl
     command: 
       - /bin/sh
       - -c
