@@ -1,11 +1,11 @@
 
 
-def call() {
+def call(Map selectorParams) {
     node("master") {
-        echo "Current branch is ${env.BRANCH_NAME}"
-        if(env.BRANCH_NAME != "pipeline") {
+        echo "Current branch is ${selectorParams.branch}"
+        if(selectorParams.branch != "pipeline") {
             build job: 'user-build', params: [
-                string(name:"BRANCH_NAME", value: env.BRANCH_NAME)
+                string(name:"BRANCH_NAME", value: selectorParams.branch)
             ]
         }
     }

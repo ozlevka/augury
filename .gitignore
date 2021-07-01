@@ -11,6 +11,7 @@ target
 .terraform/
 *.tfvars
 .terraform.lock.hcl
+*.tfstate*
 
 
 secrets/
