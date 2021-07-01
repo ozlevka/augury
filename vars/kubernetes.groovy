@@ -27,6 +27,7 @@ def call() {
             }
         }
     }
+    deployAndTest()
 }
 
 def makeProperties() {
@@ -37,3 +38,35 @@ def makeProperties() {
         [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10']]
     ])
 }
+
+def prepareTestPodYaml() {
+    def podYaml = libraryResource "org/ozlevka/testPod.yaml"
+    def object = readYaml text: podYaml
+    for (container in object['spec']['containers']) {
+        if (container['name'] == 'application') {
+            container['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
+            break
+        }
+    }
+
+    return writeYaml data: object, returnText: true
+}
+
+def deployAndTest() {    
+    podTemplate(yaml: prepareTestPodYaml()) {
+        node(POD_LABEL) {
+            stage("Test application") {
+                container("test") {
+                    sh """
+                        STATUSCODE=$(curl --silent --output /dev/stderr --write-out "%{http_code}" http://localhost:8080/test)
+
+                        if test $STATUSCODE -ne 200; then
+                            exit 1
+                        fi
+                    """
+                }
+            }
+        }
+    }
+}
+

@@ -1,4 +1,2 @@
 @Library('main-library')_
 
-buildAndTest()
-

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-slave
+spec:
+  containers:
+  - name: application
+    image: bla
+  - name: test
+    image: curlimages/curl:7.77.0
+    command: 
+      - /bin/sh
+      - -c
+      - while sleep 1000; do:; done 
