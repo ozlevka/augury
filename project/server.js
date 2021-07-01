@@ -7,8 +7,11 @@ app.get('/', (req, res) => {
 })
 
 app.get("/test", (req, res) => {
-    res.send("OK");
+  res.status(200).json({status:"ok"})
 });
+
+
+
 
 app.listen(port, '0.0.0.0', () => {
    console.log(`Example app listening at http://0.0.0.0:${port}`)
