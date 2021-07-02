@@ -38,6 +38,10 @@ def deployToStaging() {
     def podYaml = libraryResource "org/ozlevka/deployToStaging.yaml"
     podTemplate(yaml: podYaml) {
         node(POD_LABEL) {
+            stage("Restore git") {
+                git url: "https://github.com/ozlevka/augury.git", branch: params.BRANCH_NAME
+            }
+            
             stage("Prepare yaml") {
                 prepareDeployYaml()
             }
