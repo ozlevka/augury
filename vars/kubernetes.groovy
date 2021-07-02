@@ -88,13 +88,8 @@ def prepareDeployYaml() {
     echo "start"
     def deployData = readYaml file: "./deploy/deployment.yaml"
     echo "Start from ${deployData}"
-    for (container in deployData['spec']['template']['spec']['containers']) {
-        if (container['name'] == "application") {
-            echo "container found for overwrite ${dockerTag}"
-            container['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
-            break
-        }
-    }
+    def container = deployData['spec']['template']['spec']['containers'].first()
+    container['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
     echo "After change image ${deployData}"
     writeYaml data: deployData, file: "./deploy/deployment.yaml", overwrite: true
 }
