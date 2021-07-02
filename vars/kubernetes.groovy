@@ -45,6 +45,9 @@ def deployToStaging() {
             stage("Prepare yaml") {
                 prepareDeployYaml()
             }
+
+            sleep 900
+
             stage("Deploy pod to staging") {
                 container("deploy") {
                     sh """
