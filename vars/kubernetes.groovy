@@ -90,6 +90,7 @@ def prepareDeployYaml() {
     echo "Start from ${deployData}"
     for (container in deployData['spec']['template']['spec']['containers']) {
         if (container['name'] == "application") {
+            echo "container found for overwrite ${dockerTag}"
             container['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
             break
         }
