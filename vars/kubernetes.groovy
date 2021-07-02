@@ -60,7 +60,7 @@ def deployToStaging() {
                     int count = 1
                     while(amount != 3 || count <= 10) {
                         def a = sh script: 'kubectl -n staging get deployment | grep augury | awk \'{print $4}\'', returnStdout: true
-                        amount = Integer.parseInt(a.toString())
+                        amount = a as int
                         if (amount == 3) {
                             break;
                         }
