@@ -74,6 +74,7 @@ def deployToStaging() {
             stage("Find node ip") {
                 container("deploy") {
                     nodeIp = sh script: 'kubectl get node -o wide | grep worker | head -1 | awk \'{print $6}\'', returnStdout: true
+                    nodeIp = nodeIp.trim()
                 }
             }
 
