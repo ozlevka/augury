@@ -85,8 +85,11 @@ def deployToStaging() {
 
 
 def prepareDeployYaml() {
+    echo "start"
     def deployData = readYaml file: "./deploy/deployment.yaml"
+    echo "Start from ${deployData}"
     deployData['spec']['template']['spec']['containers'][0]['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
+    echo "After change image ${deployData}"
     writeYaml data: deployData, file: "./deploy/deployment.yaml"
 }
 
