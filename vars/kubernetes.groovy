@@ -51,7 +51,7 @@ def deployToStaging() {
             stage("Deploy pod to staging") {
                 container("deploy") {
                     sh """
-                        kubectl apply -f ./deploy/deployment.yaml
+                        kubectl apply -f ./deploy
                     """
                 }
             }
@@ -91,7 +91,7 @@ def prepareDeployYaml() {
     echo "start"
     def deployData = readYaml file: "./deploy/deployment.yaml"
     echo "Start from ${deployData}"
-    def container = deployData[0]['spec']['template']['spec']['containers'].first()
+    def container = deployData['spec']['template']['spec']['containers'].first()
     container['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
     echo "After change image ${deployData}"
     writeYaml data: deployData, file: "./deploy/deployment.yaml", overwrite: true
