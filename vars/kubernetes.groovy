@@ -55,7 +55,7 @@ def deployToStaging() {
                     int count = 1
                     while(amount != 3 || count <= 10) {
                         def a = sh script: """#!/bin/bash
-                            kubectl -n staging get deployment | grep augury | awk '{print $4}'
+                            kubectl -n staging get deployment | grep augury | awk \"{print $4}\"
                         """, returnStdout: true
                         amount = Integer.parseInt(a.toString())
                         if (amount == 3) {
@@ -71,7 +71,7 @@ def deployToStaging() {
             stage("Find node ip") {
                 container("deploy") {
                     nodeIp = sh script: """#!/bin/bash
-                        kubectl get node -o wide | grep worker | head -1 | awk '{print $6}'
+                        kubectl get node -o wide | grep worker | head -1 | awk \"{print $6}\"
                     """, returnStdout: true
                 }
             }
