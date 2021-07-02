@@ -95,7 +95,7 @@ def prepareDeployYaml() {
         }
     }
     echo "After change image ${deployData}"
-    writeYaml data: deployData, file: "./deploy/deployment.yaml"
+    writeYaml data: deployData, file: "./deploy/deployment.yaml", overwrite: true
 }
 
 def makeProperties() {
