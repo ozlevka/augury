@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: deploy-slave
+  namespace: staging
+spec:
+  serviceAccountName: jenkins
+  containers:
+  - name: deploy
+    image: ghcr.io/ozlevka/kubectl:v0.0.1
+    command:
+    - /bin/bash
+    - -c
+    - "while sleep 1000; do :; done"
+  - name: test
+    image: rancher/curl
+    command: 
+      - /bin/sh
+      - -c
+      - while sleep 1000; do :; done 

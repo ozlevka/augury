@@ -34,6 +34,10 @@ RUN apt-get update \
     && tar xzf doctl.tar.gz \
     && mv doctl /usr/local/bin \
     && rm -f doctl.tar.gz \
+    # Install kubectl
+    && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.2/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/bin/ \
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \

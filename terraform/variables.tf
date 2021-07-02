@@ -14,4 +14,10 @@ variable pvt_key {
   description = "Pathio to private key"
 }
 
+variable current_ip {
+  type        = string
+  description = "Current IP address"
+}
+
+
 

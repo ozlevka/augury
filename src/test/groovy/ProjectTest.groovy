@@ -9,4 +9,12 @@ class ProjectTest {
     void testOfTest() {
         Assert.assertEquals(true, true)
     }
+
+    @Test
+    void testParseKubectlOutput() {
+        String output = "augury-deployment   3/3     3            3           3m10s"
+        def arr = output.split()
+
+        println(arr)
+    }
 }

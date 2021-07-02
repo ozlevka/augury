@@ -1,4 +1,8 @@
+import os
 import subprocess
+
+
+current_ip = os.getenv("CURRENT_IP")
 
 
 def find_k8s_public():
@@ -9,10 +13,15 @@ def find_k8s_public():
 
     return None
 
+def run_final_scripts(k8s_public_id):
+    subprocess.check_output(f"doctl compute firewall add-rules {k8s_public_id} --inbound-rules protocol:tcp,ports:1-65535,address:10.133.0.0/24,address:{current_ip}", shell=True)
+    
+
 def main():
     k8s_public_id = find_k8s_public()
     if not k8s_public_id is None:
-        subprocess.check_output(f"doctl compute firewall add-rules {k8s_public_id} --inbound-rules protocol:tcp,ports:1-65535,address:10.133.0.0/24,address:84.229.91.149", shell=True)
+        run_final_scripts(k8s_public_id)
+
 
 
 if __name__ == "__main__":

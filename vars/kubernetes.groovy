@@ -28,6 +28,62 @@ def call() {
         }
     }
     deployAndTest()
+
+    if (params.BRANCH_NAME == "release") {
+        deployToStaging()
+    }
+}
+
+def deployToStaging() {
+    def podYaml = libraryResource "org/ozlevka/deployToStaging.yaml"
+    podTemplate(yaml: podYaml) {
+        node(POD_LABEL) {
+            stage("Prepare yaml") {
+                prepareDeployYaml()
+            }
+            stage("Deploy pod to staging") {
+                container("deploy") {
+                    sh """
+                        kubectl apply -f ./deploy/deployment.yaml
+                    """
+                }
+            }
+            
+            stage("Wait for deployment ready") {
+                container("deploy") {
+                    int amount = 0
+                    int count = 1
+                    while(amount != 3 || count <= 10) {
+                        def a = sh script: "kubectl -n staging get deployment | grep augury | awk '{print $4}'", returnStdout: true
+                        amount = Integer.parseInt(a.toString())
+                        if (amount == 3) {
+                            break;
+                        }
+                        sleep 20
+                        count += 1
+                    }
+                }
+            }
+
+            def nodeIp = ""
+            stage("Find node ip") {
+                container("deploy") {
+                    nodeIp = sh script: "kubectl get node -o wide | grep worker | head -1 | awk '{print $6}'", returnStdout: true
+                }
+            }
+
+            stage("Test deployment") {
+                testApplication("${nodeIp}:30808")
+            }
+        }
+    }
+}
+
+
+def prepareDeployYaml() {
+    def deployData = readYaml file: "./deploy/deployment.yaml"
+    deployData['spec']['template']['spec']['containers'][0]['image'] = "ghcr.io/ozlevka/augury-test:${dockerTag}"
+    writeYaml data: deployData, file: "./deploy/deployment.yaml"
 }
 
 def makeProperties() {
@@ -53,20 +109,24 @@ def prepareTestPodYaml() {
     return writeYaml(data: object, returnText: true)
 }
 
+def testApplication(address) {
+    stage("Test application") {
+        container("test") {
+            sh """
+                STATUSCODE=\$(curl --silent --output /dev/stderr --write-out "%{http_code}" http://${address}/test)
+
+                if test \$STATUSCODE -ne 200; then
+                    exit 1
+                fi
+            """
+        }
+    }
+}
+
 def deployAndTest() {    
     podTemplate(yaml: prepareTestPodYaml()) {
         node(POD_LABEL) {
-            stage("Test application") {
-                container("test") {
-                    sh """
-                        STATUSCODE=\$(curl --silent --output /dev/stderr --write-out "%{http_code}" http://localhost:8080/test)
-
-                        if test \$STATUSCODE -ne 200; then
-                            exit 1
-                        fi
-                    """
-                }
-            }
+            testApplication("localhost:8080")
         }
     }
 }
