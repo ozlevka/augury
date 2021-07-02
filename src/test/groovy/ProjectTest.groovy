@@ -1,7 +1,9 @@
 package test.groovy
 
+import org.apache.tools.ant.util.ReaderInputStream
 import org.junit.Test
 import org.testng.Assert
+import org.yaml.snakeyaml.Yaml
 
 class ProjectTest {
 
@@ -16,5 +18,16 @@ class ProjectTest {
         def arr = output.split()
 
         println(arr)
+    }
+
+
+    @Test
+    void loadYamlAndParse() {
+        Yaml parser = new Yaml()
+        File theYaml = new File("\\\\wsl\$\\Ubuntu-20.04\\home\\ozlevka\\projects\\augury\\deploy\\deployment.yaml")
+
+        def deploy = parser.load(theYaml.text)
+
+        String a = "b"
     }
 }
