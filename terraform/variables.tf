@@ -19,5 +19,19 @@ variable current_ip {
   description = "Current IP address"
 }
 
+variable droplet_size {
+  type        = string
+  default     = "s-2vcpu-4gb"
+  description = "Droplet size into nodegroup"
+}
+
+variable droplet_count {
+  type        = number
+  default     = 2
+  description = "Amount of droplets per default node group"
+}
+
+
+
 
 

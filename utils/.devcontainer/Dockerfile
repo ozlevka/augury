@@ -12,6 +12,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG HELM_VERSION="v3.6.3"
+ARG KUBECTL_VERSION="v1.19.3"
 
 # Configure apt and install packages
 RUN apt-get update \
@@ -23,9 +25,14 @@ RUN apt-get update \
     # Install pylint
     && pip --disable-pip-version-check --no-cache-dir install pylint kubernetes pyyaml \
     # Install kubectl
-    && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.19/bin/linux/amd64/kubectl \
+    && curl -LO "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" \
     && chmod +x ./kubectl \
     && mv ./kubectl /usr/bin/ \
+    # Install helm
+    && curl -L -o helm.tar.gz "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz" \
+    && tar xfz helm.tar.gz \ 
+    && mv linux-amd64/helm /usr/bin \
+    && rm -rf linux-amd64 helm.tar.gz \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     && groupadd --gid $USER_GID $USERNAME \
